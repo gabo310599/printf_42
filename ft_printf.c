@@ -22,18 +22,12 @@ static int	ft_control_hex(char c, va_list args)
 {
 	unsigned int	num;
 
+	num = va_arg(args, unsigned int);
 	if (c == 'x')
-	{
-		num = va_arg(args, unsigned int);
-		ft_putnbr_base(num, "0123456789abcdef");
-		return (ft_count_hex_digits(num));
-	}
+		ft_putnbr_base_unsigned(num, "0123456789abcdef");
 	else
-	{
-		num = va_arg(args, unsigned int);
-		ft_putnbr_base(num, "0123456789ABCDEF");
-		return (ft_count_hex_digits(num));
-	}
+		ft_putnbr_base_unsigned(num, "0123456789ABCDEF");
+	return (ft_count_hex_digits(num));
 }
 
 static int	ft_control_format(char c, va_list args)

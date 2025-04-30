@@ -15,7 +15,8 @@ CC      = cc
 CFLAGS  = -Wall -Werror -Wextra
 SRC     = ft_printf.c \
 			printf_utils.c \
-			printf_utils_base.c
+			printf_utils_base.c \
+			printf_hex_parse.c
 OBJ     = ${SRC:.c=.o}
 RM      = rm -f
 AR      = ar rcs

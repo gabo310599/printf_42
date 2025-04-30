@@ -1,69 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_utils_base.c                                :+:      :+:    :+:   */
+/*   printf_hex_parse.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gojeda <gojeda@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 13:57:18 by gojeda            #+#    #+#             */
-/*   Updated: 2025/04/25 13:57:21 by gojeda           ###   ########.fr       */
+/*   Created: 2025/04/30 12:32:37 by gojeda            #+#    #+#             */
+/*   Updated: 2025/04/30 12:32:38 by gojeda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_calculate_base_len(char *base)
+int	ft_puthex(unsigned long n)
 {
-	int	i;
+	int		count;
+	char	*base;
 
-	i = 0;
-	while (base[i])
-		i++;
-	return (i);
+	base = "0123456789abcdef";
+	count = 0;
+	if (n >= 16)
+		count += ft_puthex(n / 16);
+	count += ft_putchar(base[n % 16]);
+	return (count);
 }
 
-int	ft_validate_base_errors(char *base, int len)
+int	ft_count_hex_digits(unsigned int n)
 {
-	int	i;
-	int	j;
+	int	count;
 
-	if (len <= 1)
-		return (0);
-	i = 0;
-	while (base[i])
+	count = 1;
+	while (n >= 16)
 	{
-		j = i + 1;
-		while (base[j])
-		{
-			if (base[i] == base[j]
-				|| base[j] == '+' || base[j] == '-')
-				return (0);
-			j++;
-		}
-		i++;
+		n /= 16;
+		count++;
 	}
-	return (1);
+	return (count);
 }
 
-void	ft_putnbr_base(int nb, char *base)
+void	ft_putnbr_base_unsigned(unsigned int num, char *base)
 {
-	long	num;
-	int		base_len;
+	unsigned int	base_len;
 
-	num = nb;
 	base_len = ft_calculate_base_len(base);
 	if (ft_validate_base_errors(base, base_len))
 	{
-		if (num < 0 && base_len != 16)
-		{
-			num = num * -1;
-			write(1, "-", 1);
-		}
 		if (num < base_len)
 			write(1, &base[num], 1);
 		else
 		{
-			ft_putnbr_base(num / base_len, base);
+			ft_putnbr_base_unsigned(num / base_len, base);
 			write(1, &base[num % base_len], 1);
 		}
 	}
